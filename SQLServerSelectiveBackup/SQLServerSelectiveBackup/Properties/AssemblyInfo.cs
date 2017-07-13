@@ -5,11 +5,11 @@ using System.Runtime.InteropServices;
 // La información general de un ensamblado se controla mediante el siguiente 
 // conjunto de atributos. Cambie estos valores de atributo para modificar la información
 // asociada con un ensamblado.
-[assembly: AssemblyTitle("SQLSelectiveBackup")]
+[assembly: AssemblyTitle("SQLServerSelectiveBackup")]
 [assembly: AssemblyDescription("")]
 [assembly: AssemblyConfiguration("")]
 [assembly: AssemblyCompany("")]
-[assembly: AssemblyProduct("SQLSelectiveBackup")]
+[assembly: AssemblyProduct("SQLServerSelectiveBackup")]
 [assembly: AssemblyCopyright("Copyright ©  2017")]
 [assembly: AssemblyTrademark("")]
 [assembly: AssemblyCulture("")]
@@ -20,7 +20,7 @@ using System.Runtime.InteropServices;
 [assembly: ComVisible(false)]
 
 // El siguiente GUID sirve como id. de typelib si este proyecto se expone a COM.
-[assembly: Guid("be8668f4-3456-40b6-89bf-a0c75ad137cf")]
+[assembly: Guid("b7297496-34ff-4666-97b5-29fa772256ec")]
 
 // La información de versión de un ensamblado consta de los cuatro valores siguientes:
 //
