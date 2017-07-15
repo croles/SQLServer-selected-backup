@@ -36,12 +36,12 @@
             this.txtPassword = new System.Windows.Forms.TextBox();
             this.btnConnect = new System.Windows.Forms.Button();
             this.dgvTables = new System.Windows.Forms.DataGridView();
-            this.Selected = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.Table = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.txtCatalog = new System.Windows.Forms.TextBox();
             this.label4 = new System.Windows.Forms.Label();
             this.chkAll = new System.Windows.Forms.CheckBox();
             this.btnBackup = new System.Windows.Forms.Button();
+            this.Selected = new System.Windows.Forms.DataGridViewCheckBoxColumn();
+            this.Table = new System.Windows.Forms.DataGridViewTextBoxColumn();
             ((System.ComponentModel.ISupportInitialize)(this.dgvTables)).BeginInit();
             this.SuspendLayout();
             // 
@@ -117,25 +117,13 @@
             this.dgvTables.TabIndex = 7;
             this.dgvTables.Visible = false;
             // 
-            // Selected
-            // 
-            this.Selected.HeaderText = "Selected";
-            this.Selected.Name = "Selected";
-            this.Selected.Width = 60;
-            // 
-            // Table
-            // 
-            this.Table.HeaderText = "Table name";
-            this.Table.Name = "Table";
-            this.Table.Width = 386;
-            // 
             // txtCatalog
             // 
             this.txtCatalog.Location = new System.Drawing.Point(74, 41);
             this.txtCatalog.Name = "txtCatalog";
             this.txtCatalog.Size = new System.Drawing.Size(129, 20);
             this.txtCatalog.TabIndex = 9;
-            this.txtCatalog.Text = "Catalog";
+            this.txtCatalog.Text = "db1";
             // 
             // label4
             // 
@@ -160,13 +148,27 @@
             // 
             // btnBackup
             // 
-            this.btnBackup.Location = new System.Drawing.Point(426, 279);
+            this.btnBackup.Location = new System.Drawing.Point(12, 279);
             this.btnBackup.Name = "btnBackup";
             this.btnBackup.Size = new System.Drawing.Size(97, 23);
             this.btnBackup.TabIndex = 11;
             this.btnBackup.Text = "Backup";
             this.btnBackup.UseVisualStyleBackColor = true;
             this.btnBackup.Visible = false;
+            // 
+            // Selected
+            // 
+            this.Selected.HeaderText = "Selected";
+            this.Selected.Name = "Selected";
+            this.Selected.Resizable = System.Windows.Forms.DataGridViewTriState.True;
+            this.Selected.SortMode = System.Windows.Forms.DataGridViewColumnSortMode.Automatic;
+            this.Selected.Width = 60;
+            // 
+            // Table
+            // 
+            this.Table.HeaderText = "Table name";
+            this.Table.Name = "Table";
+            this.Table.Width = 386;
             // 
             // MainForm
             // 
@@ -205,10 +207,10 @@
         private System.Windows.Forms.DataGridView dgvTables;
         private System.Windows.Forms.TextBox txtCatalog;
         private System.Windows.Forms.Label label4;
-        private System.Windows.Forms.DataGridViewTextBoxColumn Selected;
-        private System.Windows.Forms.DataGridViewTextBoxColumn Table;
         private System.Windows.Forms.CheckBox chkAll;
         private System.Windows.Forms.Button btnBackup;
+        private System.Windows.Forms.DataGridViewCheckBoxColumn Selected;
+        private System.Windows.Forms.DataGridViewTextBoxColumn Table;
     }
 }
 

@@ -22,13 +22,14 @@ namespace SQLServerSelectiveBackup
             try
             {
                 //Connection string
-                string connectionString = "Server=" + txtServer.Text + ";Database=" + txtCatalog.Text + ";"
+                string connectionString = "Data Source=" + txtServer.Text + ";Initial Catalog=" + txtCatalog.Text + ";"
                     + "User id=" + txtUser.Text + ";" + "Password=" + txtPassword.Text + ";";
-                if (txtUser.Text != "") connectionString = "Server=" + txtServer.Text + ";Database=" + txtCatalog.Text + ";" + "Trusted_Connection=True;";
+                if (txtUser.Text == "") connectionString = "Data Source=" + txtServer.Text + ";Initial Catalog=" + txtCatalog.Text + ";" + "Integrated Security=true";
 
                 //Create a new database connection and get tables
                 SqlConnection connection = new SqlConnection(connectionString);
-                DataTable Tables = connection.GetSchema();
+                connection.Open();
+                DataTable Tables = connection.GetSchema("Tables");
                 foreach (DataRow row in Tables.Rows) dgvTables.Rows.Add(false, row[2].ToString());
 
                 ActivateBackupComponents();
