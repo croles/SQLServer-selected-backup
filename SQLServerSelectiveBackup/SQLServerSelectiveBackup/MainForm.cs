@@ -12,6 +12,8 @@ namespace SQLServerSelectiveBackup
 {
     public partial class MainForm : Form
     {
+        private SqlConnection connection;
+
         public MainForm()
         {
             InitializeComponent();
@@ -27,7 +29,7 @@ namespace SQLServerSelectiveBackup
                 if (txtUser.Text == "") connectionString = "Data Source=" + txtServer.Text + ";Initial Catalog=" + txtCatalog.Text + ";" + "Integrated Security=true";
 
                 //Create a new database connection and get tables
-                SqlConnection connection = new SqlConnection(connectionString);
+                connection = new SqlConnection(connectionString);
                 connection.Open();
                 DataTable Tables = connection.GetSchema("Tables");
                 foreach (DataRow row in Tables.Rows) dgvTables.Rows.Add(false, row[2].ToString());
@@ -51,6 +53,39 @@ namespace SQLServerSelectiveBackup
             chkAll.Visible = true;
             dgvTables.Visible = true;
             btnBackup.Visible = true;
+        }
+
+        private void btnBackup_Click(object sender, EventArgs e)
+        {
+            List<DataTable> lTables = new List<DataTable>();
+
+            foreach (DataGridViewRow row in dgvTables.Rows)
+            {
+                if ((bool)row.Cells[0].Value)
+                {
+                    try
+                    {
+                        SqlCommand cmd = new SqlCommand("SELECT * FROM " + row.Cells[1].Value.ToString(), connection);
+                        DataTable dt = new DataTable();
+
+                        dt.Load(cmd.ExecuteReader());
+                        lTables.Add(dt);
+                    }
+                    catch(Exception ex)
+                    {
+                        MessageBox.Show("Error retrieving table(" + row.Cells[1].Value.ToString() + "): " + ex.ToString() + "."
+                            , "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                    }
+                }
+            }
+
+            if (lTables.Count > 0) SaveTablesData(lTables);
+            else MessageBox.Show("No data has been stored.", "Info", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+        }
+
+        private void SaveTablesData(List<DataTable> lTables)
+        {
+
         }
     }
 }

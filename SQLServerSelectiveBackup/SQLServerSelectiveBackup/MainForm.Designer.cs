@@ -36,12 +36,12 @@
             this.txtPassword = new System.Windows.Forms.TextBox();
             this.btnConnect = new System.Windows.Forms.Button();
             this.dgvTables = new System.Windows.Forms.DataGridView();
+            this.Selected = new System.Windows.Forms.DataGridViewCheckBoxColumn();
+            this.Table = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.txtCatalog = new System.Windows.Forms.TextBox();
             this.label4 = new System.Windows.Forms.Label();
             this.chkAll = new System.Windows.Forms.CheckBox();
             this.btnBackup = new System.Windows.Forms.Button();
-            this.Selected = new System.Windows.Forms.DataGridViewCheckBoxColumn();
-            this.Table = new System.Windows.Forms.DataGridViewTextBoxColumn();
             ((System.ComponentModel.ISupportInitialize)(this.dgvTables)).BeginInit();
             this.SuspendLayout();
             // 
@@ -117,6 +117,20 @@
             this.dgvTables.TabIndex = 7;
             this.dgvTables.Visible = false;
             // 
+            // Selected
+            // 
+            this.Selected.HeaderText = "Selected";
+            this.Selected.Name = "Selected";
+            this.Selected.Resizable = System.Windows.Forms.DataGridViewTriState.True;
+            this.Selected.SortMode = System.Windows.Forms.DataGridViewColumnSortMode.Automatic;
+            this.Selected.Width = 60;
+            // 
+            // Table
+            // 
+            this.Table.HeaderText = "Table name";
+            this.Table.Name = "Table";
+            this.Table.Width = 386;
+            // 
             // txtCatalog
             // 
             this.txtCatalog.Location = new System.Drawing.Point(74, 41);
@@ -155,20 +169,7 @@
             this.btnBackup.Text = "Backup";
             this.btnBackup.UseVisualStyleBackColor = true;
             this.btnBackup.Visible = false;
-            // 
-            // Selected
-            // 
-            this.Selected.HeaderText = "Selected";
-            this.Selected.Name = "Selected";
-            this.Selected.Resizable = System.Windows.Forms.DataGridViewTriState.True;
-            this.Selected.SortMode = System.Windows.Forms.DataGridViewColumnSortMode.Automatic;
-            this.Selected.Width = 60;
-            // 
-            // Table
-            // 
-            this.Table.HeaderText = "Table name";
-            this.Table.Name = "Table";
-            this.Table.Width = 386;
+            this.btnBackup.Click += new System.EventHandler(this.btnBackup_Click);
             // 
             // MainForm
             // 
