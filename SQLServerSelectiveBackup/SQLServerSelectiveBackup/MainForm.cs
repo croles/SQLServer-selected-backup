@@ -7,6 +7,8 @@ using System.Drawing;
 using System.Linq;
 using System.Text;
 using System.Windows.Forms;
+using System.IO;
+using System.Runtime.Serialization.Formatters.Binary;
 
 namespace SQLServerSelectiveBackup
 {
@@ -83,9 +85,29 @@ namespace SQLServerSelectiveBackup
             else MessageBox.Show("No data has been stored.", "Info", MessageBoxButtons.OK, MessageBoxIcon.Warning);
         }
 
+        /// <summary>
+        /// Saves a list of DataTable into the backup file
+        /// </summary>
+        /// <param name="lTables">List of DataTable from de BD.</param>
         private void SaveTablesData(List<DataTable> lTables)
         {
+            const string filename = "DataTables.sbak";
 
+            try
+            {
+                if (File.Exists(filename)) File.Delete(filename);
+
+                FileStream stream = File.Create(filename);
+                var formatter = new BinaryFormatter();
+
+                formatter.Serialize(stream, lTables);
+                stream.Close();
+            }catch(Exception ex)
+            {
+                MessageBox.Show("Error saving data: " + ex.ToString() + ".", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+            }
+
+            MessageBox.Show("Data has been saved.", "Info", MessageBoxButtons.OK, MessageBoxIcon.Warning);
         }
     }
 }
