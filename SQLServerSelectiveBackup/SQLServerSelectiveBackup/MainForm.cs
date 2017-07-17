@@ -15,12 +15,18 @@ namespace SQLServerSelectiveBackup
     public partial class MainForm : Form
     {
         private SqlConnection connection;
+        private const string filename = "DataTables.sbak";
 
         public MainForm()
         {
             InitializeComponent();
         }
 
+        /// <summary>
+        /// Connects to the database and loads a list of tables to backup.
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
         private void btnConnect_Click(object sender, EventArgs e)
         {
             try
@@ -45,18 +51,32 @@ namespace SQLServerSelectiveBackup
             }
         }
 
+        /// <summary>
+        /// Checks or unchecks the elements of the table
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
         private void chkAll_CheckedChanged(object sender, EventArgs e)
         {
             foreach (DataGridViewRow row in dgvTables.Rows) row.Cells[0].Value = chkAll.Checked;
         }
 
+        /// <summary>
+        /// After connection activations
+        /// </summary>
         private void ActivateBackupComponents()
         {
             chkAll.Visible = true;
             dgvTables.Visible = true;
             btnBackup.Visible = true;
+            btnRestore.Visible = true;
         }
 
+        /// <summary>
+        /// Creates a backup in a file.
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
         private void btnBackup_Click(object sender, EventArgs e)
         {
             List<DataTable> lTables = new List<DataTable>();
@@ -71,6 +91,7 @@ namespace SQLServerSelectiveBackup
                         DataTable dt = new DataTable();
 
                         dt.Load(cmd.ExecuteReader());
+                        dt.TableName = row.Cells[1].Value.ToString();
                         lTables.Add(dt);
                     }
                     catch(Exception ex)
@@ -91,8 +112,6 @@ namespace SQLServerSelectiveBackup
         /// <param name="lTables">List of DataTable from de BD.</param>
         private void SaveTablesData(List<DataTable> lTables)
         {
-            const string filename = "DataTables.sbak";
-
             try
             {
                 if (File.Exists(filename)) File.Delete(filename);
@@ -109,5 +128,61 @@ namespace SQLServerSelectiveBackup
 
             MessageBox.Show("Data has been saved.", "Info", MessageBoxButtons.OK, MessageBoxIcon.Warning);
         }
+
+
+        /// <summary>
+        /// Restores backup information to DB.
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
+        private void btnRestore_Click(object sender, EventArgs e)
+        {
+            try
+            {
+                if (!File.Exists(filename))
+                {
+                    MessageBox.Show("No backup file found.", "Info", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                    return;
+                }
+
+                List<DataTable> lTables = LoadTablesFromFile();
+                if (lTables.Count > 0)
+                {
+                    var bulkCopy = new SqlBulkCopy(connection);
+                    foreach (DataTable table in lTables)
+                    {
+                        SqlCommand cmd = new SqlCommand("Delete FROM " + table.TableName, connection);
+                        cmd.ExecuteNonQuery();
+                        bulkCopy.DestinationTableName = table.TableName;
+                        try
+                        {
+                            bulkCopy.WriteToServer(table);
+                        }catch(Exception ex) { MessageBox.Show("Error restoring table: " + table.TableName + " -> " + ex.ToString(), "Error", MessageBoxButtons.OK, MessageBoxIcon.Error); }
+                    }
+                }
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show("Error restoring backup data: " + ex.ToString() + ".", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+            }
+        }
+
+        /// <summary>
+        /// Loads the list of DataTable from file
+        /// </summary>
+        /// <returns>List of DB tables</returns>
+        private List<DataTable> LoadTablesFromFile()
+        {
+            List<DataTable> lTables = new List<DataTable>();
+
+            var formatter = new BinaryFormatter();
+            FileStream stream = File.OpenRead(filename);
+            lTables = (List<DataTable>)formatter.Deserialize(stream);
+            stream.Close();
+
+            return lTables;
+        }
+
+
     }
 }

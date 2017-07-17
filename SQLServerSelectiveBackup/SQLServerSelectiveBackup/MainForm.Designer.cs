@@ -42,6 +42,7 @@
             this.label4 = new System.Windows.Forms.Label();
             this.chkAll = new System.Windows.Forms.CheckBox();
             this.btnBackup = new System.Windows.Forms.Button();
+            this.btnRestore = new System.Windows.Forms.Button();
             ((System.ComponentModel.ISupportInitialize)(this.dgvTables)).BeginInit();
             this.SuspendLayout();
             // 
@@ -171,11 +172,23 @@
             this.btnBackup.Visible = false;
             this.btnBackup.Click += new System.EventHandler(this.btnBackup_Click);
             // 
+            // btnRestore
+            // 
+            this.btnRestore.Location = new System.Drawing.Point(426, 279);
+            this.btnRestore.Name = "btnRestore";
+            this.btnRestore.Size = new System.Drawing.Size(97, 23);
+            this.btnRestore.TabIndex = 12;
+            this.btnRestore.Text = "Restore";
+            this.btnRestore.UseVisualStyleBackColor = true;
+            this.btnRestore.Visible = false;
+            this.btnRestore.Click += new System.EventHandler(this.btnRestore_Click);
+            // 
             // MainForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(547, 314);
+            this.Controls.Add(this.btnRestore);
             this.Controls.Add(this.btnBackup);
             this.Controls.Add(this.chkAll);
             this.Controls.Add(this.txtCatalog);
@@ -212,6 +225,7 @@
         private System.Windows.Forms.Button btnBackup;
         private System.Windows.Forms.DataGridViewCheckBoxColumn Selected;
         private System.Windows.Forms.DataGridViewTextBoxColumn Table;
+        private System.Windows.Forms.Button btnRestore;
     }
 }
 
