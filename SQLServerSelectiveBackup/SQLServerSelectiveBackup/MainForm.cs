@@ -8,6 +8,7 @@ using System.Linq;
 using System.Text;
 using System.Windows.Forms;
 using System.IO;
+using System.IO.Compression;
 using System.Runtime.Serialization.Formatters.Binary;
 
 namespace SQLServerSelectiveBackup
@@ -119,7 +120,10 @@ namespace SQLServerSelectiveBackup
                 FileStream stream = File.Create(filename);
                 var formatter = new BinaryFormatter();
 
-                formatter.Serialize(stream, lTables);
+                using (GZipStream compressionStream = new GZipStream(stream, CompressionMode.Compress))
+                {
+                    formatter.Serialize(compressionStream, lTables);
+                }
                 stream.Close();
             }catch(Exception ex)
             {
@@ -159,6 +163,7 @@ namespace SQLServerSelectiveBackup
                             bulkCopy.WriteToServer(table);
                         }catch(Exception ex) { MessageBox.Show("Error restoring table: " + table.TableName + " -> " + ex.ToString(), "Error", MessageBoxButtons.OK, MessageBoxIcon.Error); }
                     }
+                    MessageBox.Show("Data has been restored.", "Info", MessageBoxButtons.OK, MessageBoxIcon.Warning);
                 }
             }
             catch (Exception ex)
@@ -177,7 +182,10 @@ namespace SQLServerSelectiveBackup
 
             var formatter = new BinaryFormatter();
             FileStream stream = File.OpenRead(filename);
-            lTables = (List<DataTable>)formatter.Deserialize(stream);
+            using (GZipStream decompressionStream = new GZipStream(stream, CompressionMode.Decompress))
+            {
+                lTables = (List<DataTable>)formatter.Deserialize(decompressionStream);
+            }
             stream.Close();
 
             return lTables;
