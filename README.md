@@ -7,7 +7,7 @@ Allows to do fast selective backup in a SQLServer catalog.
 
 ### Application description
 
-This app is created to do backup of several tables in a database an restore the data in another with the same structure. It is useful for copying information from production to development environments avoiding tables with restricted information (like personal data). It can be used to reproduce production bugs in test or development paçlatforms.
+This app is created to do backup of several tables in a database an restore the data in another with the same structure. It is useful for copying information from production to development environments avoiding tables with restricted information (like personal data). It can be used to reproduce production bugs in test or development platforms.
 
 ### Application use
 
